@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 8
@@ -1128,8 +1128,8 @@ TextureImporter:
       name: placeholder_tilepalette_46
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 48
+        y: 40
         width: 8
         height: 8
       alignment: 0
@@ -1150,8 +1150,8 @@ TextureImporter:
       name: placeholder_tilepalette_47
       rect:
         serializedVersion: 2
-        x: 8
-        y: 32
+        x: 56
+        y: 40
         width: 8
         height: 8
       alignment: 0
@@ -1172,7 +1172,7 @@ TextureImporter:
       name: placeholder_tilepalette_48
       rect:
         serializedVersion: 2
-        x: 16
+        x: 0
         y: 32
         width: 8
         height: 8
@@ -1194,7 +1194,7 @@ TextureImporter:
       name: placeholder_tilepalette_49
       rect:
         serializedVersion: 2
-        x: 24
+        x: 8
         y: 32
         width: 8
         height: 8
@@ -1216,7 +1216,7 @@ TextureImporter:
       name: placeholder_tilepalette_50
       rect:
         serializedVersion: 2
-        x: 32
+        x: 16
         y: 32
         width: 8
         height: 8
@@ -1238,7 +1238,7 @@ TextureImporter:
       name: placeholder_tilepalette_51
       rect:
         serializedVersion: 2
-        x: 40
+        x: 24
         y: 32
         width: 8
         height: 8
@@ -1260,8 +1260,8 @@ TextureImporter:
       name: placeholder_tilepalette_52
       rect:
         serializedVersion: 2
-        x: 0
-        y: 24
+        x: 32
+        y: 32
         width: 8
         height: 8
       alignment: 0
@@ -1282,8 +1282,8 @@ TextureImporter:
       name: placeholder_tilepalette_53
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
+        x: 40
+        y: 32
         width: 8
         height: 8
       alignment: 0
@@ -1296,6 +1296,116 @@ TextureImporter:
       bones: []
       spriteID: fa41d86594a69c52fb34363f66758a04
       internalID: -1856994529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: placeholder_tilepalette_54
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2be696caf15e5c9fa7fd9f8011d8247
+      internalID: -420697784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: placeholder_tilepalette_55
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 32
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b33969502f3c92b67b76f6b0b579df93
+      internalID: 1271409117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: placeholder_tilepalette_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 24
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 414d3488db0a05dafbe347dd50d26e80
+      internalID: 310519703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: placeholder_tilepalette_57
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 24
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97bb39e9e55bee6bab4e31ac8b674a3f
+      internalID: -418284295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: placeholder_tilepalette_58
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a9517cac9b299355a83dfdb3e88cb9c
+      internalID: 1014082092
       vertices: []
       indices: 
       edges: []
@@ -1366,6 +1476,11 @@ TextureImporter:
       placeholder_tilepalette_51: 263529953
       placeholder_tilepalette_52: -934497802
       placeholder_tilepalette_53: -1856994529
+      placeholder_tilepalette_54: -420697784
+      placeholder_tilepalette_55: 1271409117
+      placeholder_tilepalette_56: 310519703
+      placeholder_tilepalette_57: -418284295
+      placeholder_tilepalette_58: 1014082092
       placeholder_tilepalette_6: 1086761980
       placeholder_tilepalette_7: -1196899887
       placeholder_tilepalette_8: -598454958

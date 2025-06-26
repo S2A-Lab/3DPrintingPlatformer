@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 public class MainMenuController : MonoBehaviour
 {
-    public VisualElement ui;
-    public Button playButton;
-    public Button optionsButton;
-    public Button saveQuitButton;
+    private VisualElement ui;
+    private Button playButton;
+    private Button optionsButton;
+    private Button exitButton;
 
     private void Awake()
     {
@@ -19,30 +20,35 @@ public class MainMenuController : MonoBehaviour
     private void OnEnable()
     {
         playButton = ui.Q<Button>("PlayButton");
-        playButton.clicked += OnPlayButtonClicked;
+        optionsButton = ui.Q<Button>("SettingsButton");
+        exitButton = ui.Q<Button>("ExitButton");
 
-        optionsButton = ui.Q<Button>("OptionsButton");
-        optionsButton.clicked += OnOptionsButtonClicked;
+        if (playButton != null)
+            playButton.clicked += OnPlayButtonClicked;
 
-        saveQuitButton = ui.Q<Button>("SaveExitButton");
-        saveQuitButton.clicked += OnSaveQuitButtonClicked;
+        if (optionsButton != null)
+            optionsButton.clicked += OnSettingsButtonClicked;
+
+        if (exitButton != null)
+            exitButton.clicked += OnExitButtonClicked;
     }
 
-    private void OnSaveQuitButtonClicked()
+    private void OnPlayButtonClicked()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+
+    private void OnSettingsButtonClicked()
+    {
+        Debug.Log("Settings button clicked.");
+    
+    }
+
+    private void OnExitButtonClicked()
     {
         Application.Quit();
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #endif
-    }
-
-    private void OnOptionsButtonClicked()
-    {
-        Debug.Log("Options");
-    }
-
-    private void OnPlayButtonClicked()
-    {
-        gameObject.SetActive(false);
     }
 }

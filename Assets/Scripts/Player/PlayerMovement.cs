@@ -397,6 +397,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanWallJump()
     {
+ 
+        //turn wall jump back on here
         return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 && (!IsWallJumping ||
              (LastOnWallRightTime > 0 && _lastWallJumpDir == 1) || (LastOnWallLeftTime > 0 && _lastWallJumpDir == -1));
     }
