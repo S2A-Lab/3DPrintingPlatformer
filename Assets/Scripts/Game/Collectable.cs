@@ -2,35 +2,27 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    public enum Type
+    public enum MatType
     {
-        FILAMENT,
-        POWDER, 
-        RESIN
-        
+        FILAMENT, 
+        METAL
     }
-    public Type type = Type.FILAMENT; 
-
+    public MatType matType = MatType.FILAMENT; 
      private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            switch (type)
+            switch (matType)
             {
-                case Type.FILAMENT:
-                    other.GetComponent<PlayerInventory>().IncreaseFilament(1);
+                case MatType.FILAMENT:
+                    other.GetComponent<PlayerInventory>().AddFilament(100);
                     break;
-                case Type.POWDER:
-                    other.GetComponent<PlayerInventory>().IncreasePowder(1);
-                    break;
-                case Type.RESIN:
-                    other.GetComponent<PlayerInventory>().IncreaseResin(1);
-                    break;
+                case MatType.METAL:
+                    other.GetComponent<PlayerInventory>().AddMetal(100);
+                    break; 
+        }
 
-            }
-          Destroy(this.gameObject);
-
-          
+        Destroy(this.gameObject);
         }
     }
 }

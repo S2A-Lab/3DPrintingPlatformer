@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     #region Variables
     //Components
     public Rigidbody2D RB { get; private set; }
+    private Animator animator; 
 
     //Variables control the various actions the player can perform at any time.
     //These are fields which can are public allowing for other sctipts to read them
@@ -66,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>(); 
     }
 
     private void Start()
@@ -225,6 +227,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        animator.SetFloat("xVelocity", Mathf.Abs(RB.linearVelocity.x)); 
         //Handle Run
         if (IsWallJumping)
             Run(Data.wallJumpRunLerp);
@@ -398,7 +401,6 @@ public class PlayerMovement : MonoBehaviour
     private bool CanWallJump()
     {
  
-        //turn wall jump back on here
         return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 && (!IsWallJumping ||
              (LastOnWallRightTime > 0 && _lastWallJumpDir == 1) || (LastOnWallLeftTime > 0 && _lastWallJumpDir == -1));
     }

@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
+
     public int filament = 0;
-    public int powder = 0;
-    public int resin = 0; 
-
-
-    public void IncreaseFilament(int amount)
+    public int metal = 0;
+    public UiManager uimanager;
+    public void AddFilament(int amount)
     {
         filament += amount;
+        uimanager.UpdateText(filament, metal);
     }
-    public void IncreasePowder(int amount)
+    public void AddMetal(int amount)
     {
-        powder += amount;
+        metal += amount;
+        uimanager.UpdateText(filament,metal);
     }
-       public void IncreaseResin(int amount)
-    {
-       resin += amount; 
-    }
+    
+  
+    
 }

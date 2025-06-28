@@ -5,11 +5,20 @@ using System.Collections.Generic;
 
 public class BuilderMode : MonoBehaviour
 {
+    public enum MatType
+    {
+        FILAMENT, 
+        METAL
+    }
+
+    public MatType matType = MatType.METAL;
+    public PlayerInventory inventory; 
     public bool isBuilding = false;
 
     [Header("Prefabs")]
     public GameObject ghostBlockPrefab;
-    public GameObject realBlockPrefab;
+    public GameObject metalPBPrefab; 
+    public GameObject filamentPBPrefab;
 
     [Header("References")]
     public Grid grid;
@@ -30,6 +39,34 @@ public class BuilderMode : MonoBehaviour
     void Awake()
     {
         mainCamera = Camera.main;
+    }
+
+    public bool CanPrint()
+    {
+        switch (matType)
+        {
+            case MatType.FILAMENT:
+                if (inventory.filament == 0) return false;
+                break;
+            case MatType.METAL:
+                if (inventory.metal == 0) return false;
+                break; 
+        }
+        return true; 
+    }
+
+    public void UpdateMaterials()
+    {
+        switch (matType)
+        {
+            case MatType.FILAMENT:
+                GetComponent<PlayerInventory>().AddFilament(-100);
+                break;
+            case MatType.METAL:
+                GetComponent<PlayerInventory>().AddMetal(-100);
+                break;
+        }
+           
     }
 
     void Update()
@@ -56,32 +93,55 @@ public class BuilderMode : MonoBehaviour
         }
 
         // Smoother placement logic
-        if (Mouse.current.leftButton.isPressed && GetComponent<PlayerInventory>().filament > 0)
+        if (Mouse.current.leftButton.isPressed && CanPrint())
         {
-            if (!ghostBlockPositions.Contains(snappedWorldPos) && 
+            if (!ghostBlockPositions.Contains(snappedWorldPos) &&
                 Time.time >= lastPlacementTime + placementCooldown)
             {
                 PlaceGhostBlock(snappedWorldPos);
                 lastPlacementTime = Time.time;
+                UpdateMaterials(); 
+             
             }
         }
     }
 
-    public void ToggleIsBuilding(InputAction.CallbackContext context)
+  public void ToggleIsBuilding(InputAction.CallbackContext context)
+{
+    if (!context.started) return;
+
+    if (!isBuilding)
     {
-        if (context.started)
-            isBuilding = !isBuilding;
-
-        if (!isBuilding)
-        {
-            if (currentGhostBlock != null)
-            {
-                Destroy(currentGhostBlock);
-                currentGhostBlock = null;
-            }
-            lastSnappedPosition = Vector3.positiveInfinity; // Reset position tracking
-        }
+        // First press: Start building with FILAMENT
+        isBuilding = true;
+        matType = MatType.FILAMENT;
+        Debug.Log("Building mode ON with FILAMENT");
+        return;
     }
+
+    if (isBuilding && matType == MatType.FILAMENT)
+    {
+        // Second press: Switch to METAL
+        matType = MatType.METAL;
+        Debug.Log("Switched to METAL");
+        return;
+    }
+
+    if (isBuilding && matType == MatType.METAL)
+    {
+        // Third press: Turn off building
+        isBuilding = false;
+        matType = MatType.FILAMENT;  // Optional: Reset to default material
+
+        if (currentGhostBlock != null)
+        {
+            Destroy(currentGhostBlock);
+            currentGhostBlock = null;
+        }
+        lastSnappedPosition = Vector3.positiveInfinity;
+        Debug.Log("Building mode OFF");
+    }
+}
 
     private void PlaceGhostBlock(Vector3 position)
     {
@@ -105,28 +165,19 @@ public class BuilderMode : MonoBehaviour
         if (ghostBlock != null)
         {
             // Create the real block with exact positioning
-            GameObject realBlock = Instantiate(realBlockPrefab, position, Quaternion.identity);
-            
-            // Ensure perfect alignment
-            realBlock.transform.position = position;
-
-            // Remove Rigidbody2D if the prefab has one (no physics needed)
-            Rigidbody2D blockRb = realBlock.GetComponent<Rigidbody2D>();
-            if (blockRb != null) 
-                Destroy(blockRb);
-
-            // Configure the collider as a simple trigger or static collider
-            BoxCollider2D col = realBlock.GetComponent<BoxCollider2D>();
-            if (col != null)
-            {
-                col.usedByComposite = false; // Not using composite collider
-                col.sharedMaterial = frictionlessMaterial;
-            }
-
-            // Destroy the ghost block
             Destroy(ghostBlock);
-
-            // Remove from tracking set
+            GameObject realBlock = null;
+            switch (matType)
+            {
+                case MatType.FILAMENT:
+                     realBlock = Instantiate(filamentPBPrefab, position, Quaternion.identity);
+                    break;
+                case MatType.METAL:
+                     realBlock = Instantiate(metalPBPrefab, position, Quaternion.identity);
+                    break;
+            }
+           
+            realBlock.transform.position = position;
             ghostBlockPositions.Remove(position);
         }
     }
