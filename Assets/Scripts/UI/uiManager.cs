@@ -4,20 +4,29 @@ using TMPro;
 public class UiManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public TMP_Text filamentText;
-    public TMP_Text metalText; 
+
+    [SerializeField] private GameObject uiToToggle;
+    public TMP_Text inv_filamentText;
+    public TMP_Text inv_metalText; 
     PlayerInventory inventory;
     void Start()
     {
-        filamentText.text = "0";
-        metalText.text = "0";
+        uiToToggle.SetActive(false);
+        inv_filamentText.text = "0";
+        inv_metalText.text = "0";
+    }
+
+    public void TogglePrintUI()
+    {
+        bool isActive = uiToToggle.activeSelf;
+         uiToToggle.SetActive(!isActive);
     }
 
 
-    public void UpdateText(int filament, int metal)
+    public void UpdateInventory(int filament, int metal)
     {
-        filamentText.text = "" + filament;
-        metalText.text = "" + metal;
+        inv_filamentText.text = "" + filament;
+        inv_metalText.text = "" + metal;
     }
     
 }

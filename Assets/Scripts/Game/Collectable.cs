@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    public enum MatType
-    {
-        FILAMENT, 
-        METAL
-    }
     public MatType matType = MatType.FILAMENT; 
      private void OnTriggerEnter2D(Collider2D other)
     {
