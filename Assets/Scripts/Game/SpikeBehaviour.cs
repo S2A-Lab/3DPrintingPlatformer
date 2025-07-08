@@ -8,5 +8,6 @@ public class SpikeBehaviour : MonoBehaviour
         {
             other.GetComponent<PlayerHealth>().Kill();
         }
+      
     }
 }

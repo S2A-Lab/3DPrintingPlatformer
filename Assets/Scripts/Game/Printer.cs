@@ -4,21 +4,25 @@ using UnityEngine;
 
 
 
-public class Printer : MonoBehaviour {
+public class Printer : MonoBehaviour
+{
 
-    public PrinterUIController printerUI; 
+    public PrinterUIController printerUI;
     public Queue<BlockData> printQueue = new Queue<BlockData>();
-    public List<BlockData> finishedPrints = new List<BlockData>();
-    public PlayerInventory inventory; 
+    private PlayerInventory inventory;
 
     private bool isPrinting = false;
+    void Awake()
+    {
+        inventory = GameObject.FindWithTag("GameController").GetComponent<PlayerInventory>();
+    }
 
 
     public void AddToPrintQueue(BlockData block)
     {
         if (!inventory.BuyPrint(block)) return;
         printQueue.Enqueue(block);
-         printerUI.PushUIQueue(block);
+        printerUI.PushUIQueue(block);
 
 
         if (!isPrinting)
@@ -32,28 +36,22 @@ public class Printer : MonoBehaviour {
             isPrinting = true;
             BlockData currentBlock = printQueue.Dequeue();
             Debug.Log($"Printing {currentBlock.blockName}, takes {currentBlock.printTime} seconds...");
+            printerUI.RunCurrentPrint(currentBlock.printTime, currentBlock);
 
             yield return new WaitForSeconds(currentBlock.printTime);
 
-            finishedPrints.Add(currentBlock);
-            printerUI.PopUIQueue(); 
-            printerUI.PushUITray(currentBlock); 
-            
-            
+
+            printerUI.PopUIQueue();
+            inventory.AddBlock(currentBlock);
+
+
             Debug.Log($"{currentBlock.blockName} finished printing!");
         }
 
         isPrinting = false;
+        printerUI.ResetCurrentPrint();
     }
 
-    public List<BlockData> GetFinishedPrints()
-    {
-        return finishedPrints;
-    }
 
-   public void ClearFinishedPrints()
-{
-    finishedPrints.Clear();
-    printerUI.ClearUITray();
-}
+
 }

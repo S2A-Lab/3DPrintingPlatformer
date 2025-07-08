@@ -1,73 +1,151 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerInventory : MonoBehaviour
 {
     public int filament = 0;
     public int metal = 0;
-    public Queue<BlockData> blocks = new Queue<BlockData>();
+    public int resin = 0;
+    public int rubber = 0;
+
+    public int filamentBlocks = 0;
+    public int metalBlocks = 0;
+    public int resinBlocks = 0;
+    public int rubberBlocks = 0;
+
+    public Dictionary<BlockData, int> blockCounts = new Dictionary<BlockData, int>();
     public UiManager uimanager;
 
-    public void AddFilament(int amount)
+    public void AddMaterial(MatType type, int amount)
     {
-        filament += amount;
-        uimanager.UpdateInventory(filament, metal);
-    }
+        switch (type)
+        {
+            case MatType.FILAMENT:
+                filament += amount;
+                break;
+            case MatType.METAL:
+                metal += amount;
+                break;
+            case MatType.RESIN:
+                resin += amount;
+                break;
+            case MatType.RUBBER:
+                rubber += amount;
+                break;
+        }
 
-    public void AddMetal(int amount)
-    {
-        metal += amount;
-        uimanager.UpdateInventory(filament, metal);
+        uimanager.UpdateInventory(filament, metal, resin, rubber);
     }
-
 
     public bool BuyPrint(BlockData block)
     {
-        if (block.matType == MatType.FILAMENT && filament >= block.materialCost)
+        switch (block.matType)
         {
-            AddFilament(-block.materialCost); 
-            return true;
+            case MatType.FILAMENT when filament >= block.materialCost:
+                AddMaterial(MatType.FILAMENT, -block.materialCost);
+                return true;
+            case MatType.METAL when metal >= block.materialCost:
+                AddMaterial(MatType.METAL, -block.materialCost);
+                return true;
+            case MatType.RESIN when resin >= block.materialCost:
+                AddMaterial(MatType.RESIN, -block.materialCost);
+                return true;
+            case MatType.RUBBER when rubber >= block.materialCost:
+                AddMaterial(MatType.RUBBER, -block.materialCost);
+                return true;
         }
-        if (block.matType == MatType.METAL && metal >= block.materialCost)
-        {
-            AddMetal(-block.materialCost); 
-            return true;
-        }
+
         return false;
     }
 
-    public void MergeBlocks(List<BlockData> incomingBlocks)
+    public void AddBlock(BlockData block)
     {
-        foreach (BlockData block in incomingBlocks)
-        {
-            blocks.Enqueue(block);
-        }
+        if (blockCounts.ContainsKey(block))
+            blockCounts[block]++;
+        else
+            blockCounts[block] = 1;
 
+        CountAddBlock(block);
     }
 
-    public void CycleBlocks()
+    public void RemoveBlock(BlockData block)
     {
-        if (blocks.Count == 0) return;
+        if (!blockCounts.ContainsKey(block)) return;
 
-        BlockData temp = blocks.Dequeue();
-        blocks.Enqueue(temp);
+        blockCounts[block]--;
+        if (blockCounts[block] <= 0)
+            blockCounts.Remove(block);
+        CountRemoveBlock(block);
     }
 
-    public BlockData GetNextBlock()
+    public int GetBlockCount(BlockData block)
     {
-        if (blocks.Count == 0) return null;
-        return blocks.Peek();
+        return blockCounts.TryGetValue(block, out int count) ? count : 0;
     }
 
-    public void RemoveBlock()
+    public bool HasBlockType(BlockData block)
     {
-        if (blocks.Count == 0) return;
-        blocks.Dequeue();
-        
+        return blockCounts.ContainsKey(block);
     }
 
     public bool HasBlocks()
     {
-        return blocks.Count > 0;
+        return blockCounts.Count > 0;
     }
+
+    public BlockData GetBlockTypeAtIndex(int index)
+    {
+        if (index < 0 || index >= blockCounts.Count) return null;
+        return blockCounts.Keys.ElementAt(index);
+    }
+
+    public int GetTotalBlockTypes()
+    {
+        return blockCounts.Count;
+    }
+
+    private void CountAddBlock(BlockData block)
+    {
+        switch (block.matType)
+        {
+            case MatType.FILAMENT:
+                filamentBlocks++;
+                break;
+            case MatType.METAL:
+                metalBlocks++;
+                break;
+            case MatType.RESIN:
+                resinBlocks++;
+                break;
+            case MatType.RUBBER:
+                rubberBlocks++;
+                break;
+        }
+         uimanager.UpdateMaterialsInventory(filamentBlocks, metalBlocks, rubberBlocks, resinBlocks); 
+
+    }
+
+    private void CountRemoveBlock(BlockData block)
+    {
+        switch (block.matType)
+        {
+            case MatType.FILAMENT:
+                filamentBlocks--;
+                break;
+            case MatType.METAL:
+                metalBlocks--;
+                break;
+            case MatType.RESIN:
+                resinBlocks--;
+                break;
+            case MatType.RUBBER:
+                rubberBlocks--;
+                break;
+        }
+
+        uimanager.UpdateMaterialsInventory(filamentBlocks, metalBlocks, rubberBlocks, resinBlocks); 
+    }
+
+
 }

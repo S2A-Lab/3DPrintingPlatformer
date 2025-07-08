@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2203ef8cc09f87ed9b975a0fe10e9650, type: 3}
   m_Name: resinBlock
   m_EditorClassIdentifier: 
-  blockName: Resin Block
-  icon: {fileID: 21300000, guid: 2d286178f912fe205bba76e032bdae60, type: 3}
-  blockPrefab: {fileID: 915179963217443762, guid: e4e9311af8ec13b7994284541c466766, type: 3}
+  blockName: ResinBlock
+  icon: {fileID: 21300000, guid: 194640e17e05ddd79940279b036bff65, type: 3}
+  blockPrefab: {fileID: 1228478968808967573, guid: 1750368b47100b2d19fbbdda07948338, type: 3}
   resolution: 1
-  matType: 0
-  printTime: 5
+  matType: 2
+  printTime: 3
   materialCost: 100

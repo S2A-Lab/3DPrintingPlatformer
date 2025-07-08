@@ -4,7 +4,11 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - GhostBlock
+  - Acidic
+  - Plastic
+  - SpawnPoint
+  - MainCanvas
+  - PrinterUI
   layers:
   - Default
   - TransparentFX
@@ -12,7 +16,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Acid
   - 
   - 
   - 

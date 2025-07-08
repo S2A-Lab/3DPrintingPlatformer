@@ -1,5 +1,7 @@
 public enum MatType
 {
     FILAMENT,
-    METAL
+    METAL,
+    RESIN, 
+    RUBBER
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BuilderMode : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class BuilderMode : MonoBehaviour
     public Grid grid;
 
     [Header("Settings")]
-    public float placementCooldown = 0.05f;
+    private float placementCooldown = 0.05f;
 
     private BlockData currentBlock;
     private HashSet<Vector3> blockPositions = new HashSet<Vector3>();
@@ -20,6 +20,7 @@ public class BuilderMode : MonoBehaviour
     private float lastPlacementTime = 0f;
     private Vector3 lastSnappedPosition = Vector3.positiveInfinity;
     private GameObject currentGhostBlock;
+    private int currentBlockIndex = 0;
 
     void Awake()
     {
@@ -38,19 +39,18 @@ public class BuilderMode : MonoBehaviour
         Vector3 snappedWorldPos = grid.CellToWorld(gridPos);
         snappedWorldPos += grid.cellSize * 0.5f;
 
-        // Only update ghost block position if it changed
         if (snappedWorldPos != lastSnappedPosition)
         {
-            if (currentGhostBlock == null)
-            {
-                currentGhostBlock = Instantiate(currentBlock.blockPrefab);
-                MakeGhostTransparent(currentGhostBlock);
-            }
-            currentGhostBlock.transform.position = snappedWorldPos;
+            UpdateGhostBlock(snappedWorldPos);
             lastSnappedPosition = snappedWorldPos;
         }
 
-        // Placement logic
+        Vector2 scrollDelta = Mouse.current.scroll.ReadValue();
+        if (scrollDelta.y != 0)
+        {
+            SwitchBlock(scrollDelta.y > 0 ? 1 : -1);
+        }
+
         if (Mouse.current.leftButton.isPressed && inventory.HasBlocks())
         {
             if (!blockPositions.Contains(snappedWorldPos) &&
@@ -64,7 +64,7 @@ public class BuilderMode : MonoBehaviour
 
     public void ToggleIsBuilding(InputAction.CallbackContext context)
     {
-        if (!context.started) return;
+        if (!context.performed) return;
 
         isBuilding = !isBuilding;
 
@@ -72,7 +72,8 @@ public class BuilderMode : MonoBehaviour
         {
             if (inventory.HasBlocks())
             {
-                currentBlock = inventory.GetNextBlock();
+                currentBlockIndex = 0;
+                currentBlock = inventory.GetBlockTypeAtIndex(currentBlockIndex);
                 Debug.Log("Building mode ON");
             }
             else
@@ -89,15 +90,51 @@ public class BuilderMode : MonoBehaviour
         }
     }
 
+    private void SwitchBlock(int direction)
+    {
+        if (!inventory.HasBlocks()) return;
+
+        int totalBlocks = inventory.GetTotalBlockTypes();
+        currentBlockIndex = (currentBlockIndex + direction) % totalBlocks;
+        if (currentBlockIndex < 0)
+            currentBlockIndex = totalBlocks - 1;
+
+        currentBlock = inventory.GetBlockTypeAtIndex(currentBlockIndex);
+
+        if (currentGhostBlock != null)
+        {
+            DestroyGhostBlock();
+            UpdateGhostBlock(lastSnappedPosition);
+        }
+
+        Debug.Log($"Switched to block: {currentBlock.name}");
+    }
+
+    private void UpdateGhostBlock(Vector3 position)
+    {
+        if (currentGhostBlock == null)
+        {
+            currentGhostBlock = Instantiate(currentBlock.blockPrefab);
+            MakeGhostTransparent(currentGhostBlock);
+            RemoveColliders(currentGhostBlock);
+        }
+        currentGhostBlock.transform.position = position;
+    }
+
     private void PlaceBlock(Vector3 position)
     {
         Instantiate(currentBlock.blockPrefab, position, Quaternion.identity);
         blockPositions.Add(position);
-        inventory.RemoveBlock();
-        
+        inventory.RemoveBlock(currentBlock);
+
         if (inventory.HasBlocks())
         {
-            currentBlock = inventory.GetNextBlock();
+            if (!inventory.HasBlockType(currentBlock))
+            {
+                currentBlockIndex = 0;
+                currentBlock = inventory.GetBlockTypeAtIndex(currentBlockIndex);
+                DestroyGhostBlock();
+            }
         }
         else
         {
@@ -111,9 +148,24 @@ public class BuilderMode : MonoBehaviour
     {
         foreach (SpriteRenderer sr in ghost.GetComponentsInChildren<SpriteRenderer>())
         {
+            sr.material = new Material(Shader.Find("Sprites/Default"));
             Color color = sr.color;
             color.a = 0.5f;
             sr.color = color;
+            sr.sortingOrder += 1000;
+        }
+    }
+
+    private void RemoveColliders(GameObject ghost)
+    {
+        foreach (Collider2D col in ghost.GetComponentsInChildren<Collider2D>())
+        {
+            Destroy(col);
+        }
+
+        foreach (Collider col in ghost.GetComponentsInChildren<Collider>())
+        {
+            Destroy(col);
         }
     }
 

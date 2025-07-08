@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2203ef8cc09f87ed9b975a0fe10e9650, type: 3}
+  m_Name: bouncyBlock
+  m_EditorClassIdentifier: 
+  blockName: Rubber Block
+  icon: {fileID: 21300000, guid: a667327f0b97401f49f03ba683c31dd1, type: 3}
+  blockPrefab: {fileID: 1151817970356454185, guid: 412b3755b5755819289f81451e2fa875, type: 3}
+  resolution: 1
+  matType: 3
+  printTime: 10
+  materialCost: 200

@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     //but can only be privately written to.
     public bool IsFacingRight { get; private set; }
     public bool IsJumping { get; private set; }
+    public bool IsGrounded { get; private set; }
     public bool IsWallJumping { get; private set; }
     public bool IsSliding { get; private set; }
 
@@ -102,6 +103,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+
+        animator.SetBool("isJumping", !IsGrounded);
+        IsGrounded = false; 
         #region TIMERS
         LastOnGroundTime -= Time.deltaTime;
         LastOnWallTime -= Time.deltaTime;
@@ -118,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) //checks if set box overlaps with ground
             {
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+                IsGrounded = true; 
             }
 
             //Right Wall Check
@@ -136,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         #region JUMP CHECKS
+         
         if (IsJumping && RB.linearVelocity.y < 0)
         {
             IsJumping = false;
@@ -227,7 +233,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        animator.SetFloat("xVelocity", Mathf.Abs(RB.linearVelocity.x)); 
+        animator.SetFloat("xVelocity", Mathf.Abs(RB.linearVelocity.x));
+        animator.SetFloat("yVelocity", RB.linearVelocity.y); 
         //Handle Run
         if (IsWallJumping)
             Run(Data.wallJumpRunLerp);
@@ -347,6 +354,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallJump(int dir)
     {
+          Debug.Log($"Wall Jump Triggered! Direction: {dir}");
         //Ensures we can't call Wall Jump multiple times from one press
         LastPressedJumpTime = 0;
         LastOnGroundTime = 0;
