@@ -4,7 +4,12 @@ public class MaterialUnlock : MonoBehaviour, IInteractable
 {
     public MatType matType;
     private GameController gameController;
-    public GameObject interactableIcon; 
+    public GameObject interactableIcon;
+
+    void Start()
+    {
+        interactableIcon.SetActive(false);
+    }
 
     void Awake()
     {

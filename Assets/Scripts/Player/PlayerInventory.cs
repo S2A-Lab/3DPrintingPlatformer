@@ -35,7 +35,7 @@ public class PlayerInventory : MonoBehaviour
                 break;
         }
 
-        uimanager.UpdateInventory(filament, metal, resin, rubber);
+        uimanager.UpdateInventory(filament, metal, rubber, resin);
     }
 
     public bool BuyPrint(BlockData block)

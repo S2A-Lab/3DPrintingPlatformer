@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2203ef8cc09f87ed9b975a0fe10e9650, type: 3}
   m_Name: filamentBlock
   m_EditorClassIdentifier: 
+  isBlock: 1
   blockName: PLASTIC BLOCK
   icon: {fileID: 21300000, guid: 2d286178f912fe205bba76e032bdae60, type: 3}
   blockPrefab: {fileID: 915179963217443762, guid: e4e9311af8ec13b7994284541c466766, type: 3}
+  description: "Lightweight and reliable, this block is made from PLA \u2014 the
+    standard for 3D printing. It\u2019s sturdy enough for basic structures but will
+    shatter under heavy stress."
   resolution: 1
   matType: 0
-  printTime: 2
+  printTime: 1
   materialCost: 100

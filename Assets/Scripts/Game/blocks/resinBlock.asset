@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2203ef8cc09f87ed9b975a0fe10e9650, type: 3}
   m_Name: resinBlock
   m_EditorClassIdentifier: 
+  isBlock: 1
   blockName: ResinBlock
   icon: {fileID: 21300000, guid: 194640e17e05ddd79940279b036bff65, type: 3}
   blockPrefab: {fileID: 1228478968808967573, guid: 1750368b47100b2d19fbbdda07948338, type: 3}
+  description: A highly detailed block cured from photopolymer resin. It's smooth
+    and floatable but fragile under pressure and heat.
   resolution: 1
   matType: 2
-  printTime: 3
+  printTime: 1
   materialCost: 100

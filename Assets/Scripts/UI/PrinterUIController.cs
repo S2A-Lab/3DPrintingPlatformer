@@ -19,6 +19,9 @@ public class PrinterUIController : MonoBehaviour
     [SerializeField] private TMP_Text printTimeTxt;
     [SerializeField] private TMP_Text materialCostTxt;
     [SerializeField] private TMP_Text itemNametxt;
+    [SerializeField] private TMP_Text description;
+
+
 
     [SerializeField] private Image blueprint_image;
 
@@ -34,9 +37,34 @@ public class PrinterUIController : MonoBehaviour
     [SerializeField] private Button metalBlock_btn;
     [SerializeField] private Button rubberBlock_btn;
 
+    
+    [SerializeField] private Image rubberUpgrade; 
+    [SerializeField] private Image resinUpgrade; 
+    [SerializeField] private Image metalUpgrade; 
+    [SerializeField] private TMP_Text rubberUPH; 
+    [SerializeField] private TMP_Text resinUPH; 
+    [SerializeField] private TMP_Text metalUPH;
+
+
+    [SerializeField] private Button rubberUBtn; 
+    [SerializeField] private Button resinUBtn; 
+    [SerializeField] private Button metalUBtn;
+
+
+
+
+
+
     void Start()
     {
-        SetCurrentBlock(plasticBlockData); 
+        SetCurrentBlock(plasticBlockData);
+        metalUpgrade.gameObject.SetActive(false);
+        resinUpgrade.gameObject.SetActive(false);
+        rubberUpgrade.gameObject.SetActive(false);
+        rubberUBtn.interactable = false;
+        metalUBtn.interactable = false; 
+         resinUBtn.interactable = false; 
+             
     }
 
 
@@ -48,7 +76,7 @@ public class PrinterUIController : MonoBehaviour
 
     public void PrintCurrentBlock()
     {
-        if (currentBlock == null || printer == null)
+        if (currentBlock == null || printer == null || !currentBlock.isBlock)
             return;
 
         printer.AddToPrintQueue(currentBlock);
@@ -85,9 +113,10 @@ public class PrinterUIController : MonoBehaviour
 
     private void UpdateSelectedBlockUI()
     {
-        printTimeTxt.text = "" + currentBlock.printTime;
-        materialCostTxt.text = "" + currentBlock.materialCost;
+        printTimeTxt.text = !currentBlock.isBlock  ? "NA" : "" + currentBlock.printTime;
+        materialCostTxt.text = !currentBlock.isBlock  ? "NA" : "" + currentBlock.materialCost;
         itemNametxt.text = "" + currentBlock.blockName;
+        description.text = currentBlock.description; 
         blueprint_image.sprite = currentBlock.icon;
 
     }
@@ -110,13 +139,22 @@ public class PrinterUIController : MonoBehaviour
                 plasticBlock_btn.interactable = true; 
                     break;
                 case MatType.METAL:
-                    metalBlock_btn.interactable = true; 
+                    metalBlock_btn.interactable = true;
+                metalUpgrade.gameObject.SetActive(true);
+                metalUPH.gameObject.SetActive(false);
+                metalUBtn.interactable = true; 
                     break;
                 case MatType.RESIN:
-                resinBlock_btn.interactable = true; 
+                resinBlock_btn.interactable = true;
+                resinUpgrade.gameObject.SetActive(true);
+                resinUPH.gameObject.SetActive(false);
+                resinUBtn.interactable = true; 
                     break;
                 case MatType.RUBBER:
-                rubberBlock_btn.interactable = true;    
+                rubberBlock_btn.interactable = true;
+                rubberUpgrade.gameObject.SetActive(true);
+                rubberUPH.gameObject.SetActive(false);
+                rubberUBtn.interactable = true; 
                     break;
         }
     }

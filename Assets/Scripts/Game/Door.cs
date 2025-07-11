@@ -10,6 +10,11 @@ public class Door : MonoBehaviour, IInteractable
     public float time = 1f;
     public GameObject interactableIcon;
 
+    void Start()
+    {
+        interactableIcon.SetActive(false);
+    }
+
     public bool CanInteract()
     {
         return true;

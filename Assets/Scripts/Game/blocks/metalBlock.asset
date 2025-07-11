@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2203ef8cc09f87ed9b975a0fe10e9650, type: 3}
   m_Name: metalBlock
   m_EditorClassIdentifier: 
+  isBlock: 1
   blockName: METAL BLOCK
   icon: {fileID: 21300000, guid: 4b1d11334ed8778d496d2b37a84be9f2, type: 3}
   blockPrefab: {fileID: 2214205416393601054, guid: c5139ca8b861ee3439526eebaea267f8, type: 3}
+  description: Forged from stainless steel powder and sintered into shape, this block
+    is incredibly durable. Ideal for high-strength builds or resisting extreme conditions.
   resolution: 1
   matType: 1
-  printTime: 5
-  materialCost: 200
+  printTime: 1
+  materialCost: 100

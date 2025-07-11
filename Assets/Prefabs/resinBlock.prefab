@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 566610129454576419}
   - component: {fileID: 6215464677625913929}
   - component: {fileID: 1176845864242972694}
-  m_Layer: 3
+  - component: {fileID: -1034276653340986889}
+  m_Layer: 0
   m_Name: resinBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +127,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.16}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -134,3 +135,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-1034276653340986889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228478968808967573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74d4df8c2f3ccbd5a9373b170fd6f155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalBoost: 30
