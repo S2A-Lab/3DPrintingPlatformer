@@ -48,6 +48,17 @@ public class PlayerMovement : MonoBehaviour
     private float _wallJumpStartTime;
     private int _lastWallJumpDir;
 
+    //SpeedBoost
+
+    public float speedBoost;
+    public float boostTime;
+
+    public bool isFloating;
+    public int floatCount; 
+    public float floatSpeed = 2f; 
+   
+
+
     private Vector2 _moveInput;
     public float LastPressedJumpTime { get; private set; }
 
@@ -115,6 +126,17 @@ public class PlayerMovement : MonoBehaviour
         LastPressedJumpTime -= Time.deltaTime;
         #endregion
 
+       
+
+
+        if (isFloating)
+        {
+            // Move freely in X and Y while floating
+            Vector2 floatVelocity = new Vector2(_moveInput.x, _moveInput.y) * floatSpeed;
+            RB.AddForce(floatVelocity); 
+        return; // Skip grounded logic while floating
+        }
+
         #region COLLISION CHECKS
         if (!IsJumping)
         {
@@ -122,7 +144,8 @@ public class PlayerMovement : MonoBehaviour
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) //checks if set box overlaps with ground
             {
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
-                IsGrounded = true; 
+                IsGrounded = true;
+
             }
 
             //Right Wall Check
@@ -195,39 +218,40 @@ public class PlayerMovement : MonoBehaviour
 
         #region GRAVITY
         //Higher gravity if we've released the jump input or are falling
+       
         if (IsSliding)
-        {
-            SetGravityScale(0);
-        }
-        else if (RB.linearVelocity.y < 0 && _moveInput.y < 0)
-        {
-            //Much higher gravity if holding down
-            SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
-            //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-            RB.linearVelocity = new Vector2(RB.linearVelocity.x, Mathf.Max(RB.linearVelocity.y, -Data.maxFastFallSpeed));
-        }
-        else if (_isJumpCut)
-        {
-            //Higher gravity if jump button released
-            SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
-            RB.linearVelocity = new Vector2(RB.linearVelocity.x, Mathf.Max(RB.linearVelocity.y, -Data.maxFallSpeed));
-        }
-        else if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.linearVelocity.y) < Data.jumpHangTimeThreshold)
-        {
-            SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
-        }
-        else if (RB.linearVelocity.y < 0)
-        {
-            //Higher gravity if falling
-            SetGravityScale(Data.gravityScale * Data.fallGravityMult);
-            //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-            RB.linearVelocity = new Vector2(RB.linearVelocity.x, Mathf.Max(RB.linearVelocity.y, -Data.maxFallSpeed));
-        }
-        else
-        {
-            //Default gravity if standing on a platform or moving upwards
-            SetGravityScale(Data.gravityScale);
-        }
+            {
+                SetGravityScale(0);
+            }
+            else if (RB.linearVelocity.y < 0 && _moveInput.y < 0)
+            {
+                //Much higher gravity if holding down
+                SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
+                //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+                RB.linearVelocity = new Vector2(RB.linearVelocity.x, Mathf.Max(RB.linearVelocity.y, -Data.maxFastFallSpeed));
+            }
+            else if (_isJumpCut)
+            {
+                //Higher gravity if jump button released
+                SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
+                RB.linearVelocity = new Vector2(RB.linearVelocity.x, Mathf.Max(RB.linearVelocity.y, -Data.maxFallSpeed));
+            }
+            else if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.linearVelocity.y) < Data.jumpHangTimeThreshold)
+            {
+                SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
+            }
+            else if (RB.linearVelocity.y < 0)
+            {
+                //Higher gravity if falling
+                SetGravityScale(Data.gravityScale * Data.fallGravityMult);
+                //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+                RB.linearVelocity = new Vector2(RB.linearVelocity.x, Mathf.Max(RB.linearVelocity.y, -Data.maxFallSpeed));
+            }
+            else
+            {
+                //Default gravity if standing on a platform or moving upwards
+                SetGravityScale(Data.gravityScale);
+            }
         #endregion
     }
 
@@ -378,7 +402,51 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
+
+
     #region OTHER MOVEMENT METHODS
+
+    public void SpeedBoost()
+    {
+
+        Debug.Log("test");
+        Data.runMaxSpeed += speedBoost;
+        Data.runAcceleration = Data.runMaxSpeed;
+        Data.runDecceleration = Data.runMaxSpeed;
+        Data.accelInAir = 1;
+        Data.deccelInAir = 1; 
+   
+    }
+    public void ToEndSpeedBoost()
+    {
+        StartCoroutine(StopBoosting()); 
+    }
+    public IEnumerator StopBoosting()
+    {
+        yield return new WaitForSeconds(boostTime);
+        Data.runMaxSpeed = Data.runMaxSpeedTarget;
+        Data.runAcceleration = Data.runAccelerationTarget;
+        Data.runDecceleration = Data.runDeccelerationTarget; 
+        Data.accelInAir = Data.accelInAirTarget;
+        Data.deccelInAir = Data.deccelInAirTarget; 
+    }
+
+    public void StartFloat()
+    {
+        floatCount++; 
+        Debug.Log("Start Float"); 
+        SetGravityScale(0);
+        isFloating = true; 
+    }
+    public void StopFloat()
+    {
+        floatCount--;
+        Debug.Log("Stop Float");
+        if (floatCount == 0)
+        {
+            isFloating = false;
+        }
+    }
     private void Slide()
     {
         //Works the same as the Run but only in the y-axis

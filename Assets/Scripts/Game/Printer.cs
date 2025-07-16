@@ -9,13 +9,10 @@ public class Printer : MonoBehaviour
 
     public PrinterUIController printerUI;
     public Queue<BlockData> printQueue = new Queue<BlockData>();
-    private PlayerInventory inventory;
+    public PlayerInventory inventory;
 
     private bool isPrinting = false;
-    void Awake()
-    {
-        inventory = GameObject.FindWithTag("GameController").GetComponent<PlayerInventory>();
-    }
+    
 
 
     public void AddToPrintQueue(BlockData block)

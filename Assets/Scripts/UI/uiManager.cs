@@ -17,8 +17,11 @@ public class UiManager : MonoBehaviour
     [Header("Toggler")]
 
     [SerializeField] private GameObject uiToToggle;
+    [SerializeField] private GameObject gameControlsUIToToggle;
 
     private PlayerInventory inventory;
+
+
 
     void Awake()
     {
@@ -27,6 +30,8 @@ public class UiManager : MonoBehaviour
     void Start()
     {
         uiToToggle.SetActive(false);
+        gameControlsUIToToggle.SetActive(false);
+      
         UpdateInventory(0, 0, 0, 0);
         UpdateMaterialsInventory(0, 0, 0, 0);
     }
@@ -35,6 +40,11 @@ public class UiManager : MonoBehaviour
     {
         bool isActive = uiToToggle.activeSelf;
         uiToToggle.SetActive(!isActive);
+    }
+    public void ToggleGameControlsUI()
+    {
+        bool isActive = gameControlsUIToToggle.activeSelf;
+        gameControlsUIToToggle.SetActive(!isActive);
     }
 
 

@@ -9,6 +9,7 @@ TagManager:
   - SpawnPoint
   - MainCanvas
   - PrinterUI
+  - OptionsMenu
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - Ground
   - Water
   - UI
+  - Player
   - Acid
-  - 
   - 
   - 
   - 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6215464677625913929}
   - component: {fileID: 1176845864242972694}
   - component: {fileID: -1034276653340986889}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: resinBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,3 +148,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalBoost: 30
+  bounceBoost: 5

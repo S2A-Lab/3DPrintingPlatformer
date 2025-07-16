@@ -18,6 +18,12 @@ public class PlayerData : ScriptableObject
     [Space(20)]
 
     [Header("Run")]
+
+    public float runMaxSpeedTarget;
+    public float runAccelerationTarget; 
+    public float runDeccelerationTarget; 
+    [Range(0f, 1)] public float accelInAirTarget; //Multipliers applied to acceleration rate when airborne.
+    [Range(0f, 1)] public float deccelInAirTarget;
     public float runMaxSpeed; //Target speed we want the player to reach.
     public float runAcceleration; //The speed at which our player accelerates to max speed, can be set to runMaxSpeed for instant acceleration down to 0 for none at all
     [HideInInspector] public float runAccelAmount; //The actual force (multiplied with speedDiff) applied to the player.

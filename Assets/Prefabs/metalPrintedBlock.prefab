@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5570659309440896488}
   - component: {fileID: 6486614744256445664}
   - component: {fileID: 3488723404082915675}
+  - component: {fileID: 2837516181531768516}
   m_Layer: 3
   m_Name: metalPrintedBlock
   m_TagString: Untagged
@@ -134,3 +135,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2837516181531768516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2214205416393601054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9e03b4a8faebfd2a6417914b3d229b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatRadius: 6
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
