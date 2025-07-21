@@ -9,10 +9,15 @@ public class LevelLoader : MonoBehaviour, IInteractable
     public Animator sceneTransitions;
     public float time = 1f;
     public GameObject interactableIcon;
+    bool isDoor; 
+    public AudioClip soundClip; // Assign in Inspector
+    public AudioSource audioSource;
+
 
     void Start()
     {
         interactableIcon.SetActive(false);
+        audioSource.clip = soundClip;
     }
 
     public bool CanInteract()
@@ -22,6 +27,7 @@ public class LevelLoader : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        audioSource.Play(); 
         LoadNextLevel();
     }
     public void ToggleInteractIcon(bool isOn)

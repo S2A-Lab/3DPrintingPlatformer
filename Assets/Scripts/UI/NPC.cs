@@ -6,22 +6,37 @@ using TMPro;
 public class NPC : MonoBehaviour, IInteractable
 {
     public NPCDialogue dialogueData;
-    public GameObject dialoguePanel;
-    public TMP_Text dialogueText, nameText;
-    public Image portraitIcon;
+    private GameController gameController;
+    private TMP_Text dialogueText, nameText;
+    private Image portraitIcon;
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
     public GameObject interactableIcon;
 
+     public AudioClip soundClip; // Assign in Inspector
+    public AudioSource audioSource;
+
+
     void Start()
     {
         interactableIcon.SetActive(false);
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        dialogueText = gameController.dialogueText;
+        nameText = gameController.nameText;
+        portraitIcon = gameController.portraitIcon; 
+        audioSource.clip = soundClip;
+        
     }
 
     public void ToggleInteractIcon(bool isOn)
     {
+
+        interactableIcon.SetActive(isOn);
         
-        interactableIcon.SetActive(isOn);    
+        if (isOn == false)
+        {
+            EndDialogue();
+        }   
     }
     public bool CanInteract()
     {
@@ -33,7 +48,7 @@ public class NPC : MonoBehaviour, IInteractable
     {
         
 
-        if (dialogueData == null || (PauseController.IsGamePaused && !isDialogueActive))
+        if (dialogueData == null)
         {
            
             return;
@@ -56,9 +71,11 @@ public class NPC : MonoBehaviour, IInteractable
         isDialogueActive = true;
         dialogueIndex = 0;
         nameText.SetText(dialogueData.npcName);
-        portraitIcon.sprite = dialogueData.icon; 
-        dialoguePanel.SetActive(true);
-        PauseController.SetPause(true);
+        portraitIcon.sprite = dialogueData.icon;
+
+
+        gameController.ToggleDialogue(true); 
+  
 
         //TypeLine
         StartCoroutine(TypeLine());
@@ -90,6 +107,7 @@ public class NPC : MonoBehaviour, IInteractable
         foreach (char letter in dialogueData.dialogueLines[dialogueIndex])
         {
             dialogueText.text += letter;
+            audioSource.Play();
             yield return new WaitForSeconds(dialogueData.typingSpeed);
         }
         isTyping = false;
@@ -107,6 +125,6 @@ public class NPC : MonoBehaviour, IInteractable
         StopAllCoroutines();
         isDialogueActive = false;
         dialogueText.SetText("");
-        dialoguePanel.SetActive(false); 
+         gameController.ToggleDialogue(false); 
     }
 }

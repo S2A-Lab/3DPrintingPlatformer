@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Collections; 
+using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 public class GameController : MonoBehaviour
 {
 
@@ -9,9 +11,17 @@ public class GameController : MonoBehaviour
   public PrinterUIController printerUI;
   public PlayerInventory inventory;
   public bool testingMode = false;
+  public GameObject dialoguePanel;
+  private GameObject optionsMenu;
+
+  public TMP_Text dialogueText, nameText;
+  public Image portraitIcon;
 
   void Start()
   {
+    optionsMenu = GameObject.FindGameObjectWithTag("OptionsMenu");
+
+
     if (testingMode)
     {
       ToggleTestingMode();
@@ -40,7 +50,7 @@ public class GameController : MonoBehaviour
   {
     SceneManager.LoadScene(0);
   }
-  
+
 
   public void LoadNextLevel()
   {
@@ -57,6 +67,15 @@ public class GameController : MonoBehaviour
     {
       SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
+  }
+
+  public void ToggleDialogue(bool isOn)
+  {
+    dialoguePanel.SetActive(isOn);
+  }
+  public void ToggleOptions(bool isOn)
+  {
+    optionsMenu.GetComponent<OptionsMenu>().ToggleOptions(isOn); 
   }
 
   

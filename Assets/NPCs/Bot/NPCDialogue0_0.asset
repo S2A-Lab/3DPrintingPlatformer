@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f805cba447fa5fa7d84cb60baee682ed, type: 3}
+  m_Name: NPCDialogue0_0
+  m_EditorClassIdentifier: 
+  npcName: S.A.M. Bot
+  icon: {fileID: 21300000, guid: 840d513703d65bfbebc726e1807e2d2b, type: 3}
+  dialogueLines:
+  - User detected. Welcome to Fabrication Lab Theta-9...
+  - Critical research data is queued for upload, but transmission requires full system
+    restoration...
+  - 'Objective: Reactivate the lab, re-enable printing protocols, and send the data
+    as soon as possible...'
+  - In your inventory you'll find Project PrintPort...
+  - 'Its still in its developmental stages... but you will need it on your journey. '
+  - Godspeed.
+  autoProgressLines: 000000000000
+  autoProgressDelay: 1.5
+  typingSpeed: 0.05

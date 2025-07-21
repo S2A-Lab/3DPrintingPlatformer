@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: LavaNoBUbs
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 21300000, guid: 7392766aed49a66f88cf11c705ada296, type: 3}
+  - {fileID: 21300000, guid: fc2ac3dca4c7f3221a0a5cd6e7df32f4, type: 3}
+  - {fileID: 21300000, guid: f8401276d09f52eb08281aef7e8593ea, type: 3}
+  - {fileID: 21300000, guid: 3d43351c5605f2052ab6e62a861e4f6c, type: 3}
+  - {fileID: 21300000, guid: 9c0a95e9f176fd4bd993d35633b63a40, type: 3}
+  - {fileID: 21300000, guid: 68cdfa753fea7081fbb8c749030999b8, type: 3}
+  - {fileID: 21300000, guid: 9262bf2a3b47ea78a8039f7f59626a0b, type: 3}
+  - {fileID: 21300000, guid: 6c4971bcbfa68ef3ca67da1020a6eb08, type: 3}
+  - {fileID: 21300000, guid: 77f6877f1dc7bbb8c976dc1eddfe0529, type: 3}
+  m_MinSpeed: 10
+  m_MaxSpeed: 10
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0
